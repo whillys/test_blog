@@ -1,10 +1,10 @@
 # Site settings
 title: whillysnie Blog
-SEOTitle: whillysnie的博客 | BY Blog
+SEOTitle: whillys的博客
 header-img: img/post-bg-desk.jpg
-email: qiubaiying@gmail.com
+email: fox.nie@163.com
 description: "Every failure is leading towards success."
-keyword: "BY, BY Blog, 柏荧的博客, qiubaiying, 邱柏荧, iOS, Apple, iPhone"
+keyword: "whillys, c/c++, linux, Lua"
 url: "http://whillys.github.io"          # your host, for absolute URL
 baseurl: ""      # for example, '/blog' if your blog hosted on 'host/blog'
 github_repo: "https://github.com/whillys/whillys.github.io" # you code repository
@@ -94,16 +94,13 @@ service-worker: true
 # Friends
 friends: [
     {
-        title: "WY",
-        href: "http://zhengwuyang.com"
+        title: "Lua 5.1 参考手册",
+        href: "https://www.codingnow.com/2000/download/lua_manual.html"
     },{
-        title: "简书·BY",
-        href: "http://www.jianshu.com/u/e71990ada2fd"
+        title: "Lua 5.3 参考手册 ",
+        href: "http://cloudwu.github.io/lua53doc/manual.html"
     },{
-        title: "Apple",
-        href: "https://apple.com"
-    },{
-        title: "Apple Developer",
-        href: "https://developer.apple.com/"
+        title: "programming notes",
+        href: "http://www3.ntu.edu.sg/home/ehchua/programming/index.html"
     }
 ]
