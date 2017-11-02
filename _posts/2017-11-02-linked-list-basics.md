@@ -72,9 +72,12 @@ Length是一个简单的函数，但是它展示了链表中两种常见的特�
 1. 把链表的头指针作为入参传给函数，在函数调用过程中，链表头指针的值赋值给函数中的局部变量head，局部变量head也指向链表而不需要复制整个链表。
 1. 2. 通过本地指针来迭代链表。
 
+
     struct node * current = head;
+    
     while (current != NULL)
     {
+
     	//do something with *current node
     	current=current->next;
     }
@@ -122,7 +125,7 @@ BuildOneTwoThree()是一个很好的指针操作的例子，但它不是构建�
     
 三步链接操作的内存状态如下：
 
-![](https://github.com/whillys/whillys.github.io/blob/master/img/insert_node_with_3_step.png)
+![](http://imglf3.nosdn.127.net/img/dUwzdFBUbDJxOXR6NUFUbTZDOUZycDZaZHI1NlhiL0JvZklVdW1jUGhHQzhKK1pJd1RLUnd3PT0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0&type=jpg)
 
 **Push函数**
 
@@ -149,7 +152,7 @@ WrongPush企图使用三步操作来在链表头部插入新节点，第一步�
 
 调用WrongPushTest时的内存布局为：
 
-![](https://github.com/whillys/whillys.github.io/blob/master/img/wrongpush.png)
+![](http://imglf4.nosdn.127.net/img/dUwzdFBUbDJxOXR6NUFUbTZDOUZydVVwbktISnY5QnZmNmlncDRhNnhJSEhFSTZyWS8ySFZnPT0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0&type=jpg)
 
 我们需要Push()来改变一些调用者的内存--即head变量。 允许函数更改其调用者内存的传统方法是将指向调用者内存的指针传递给函数而不是内存中值副本。 所以在C中，要改变调用者的int，请传递一个int *。 要更改struct fraction，请传递strcut fraction *,要更改X，请传递一个X *。 所以在这种情况下，我们要更改的值是struct node *，所以我们传递一个struct node **。 两颗星（**）有点可怕，但是这只是一个直接的规则应用。 刚好我们要更改的值已经有一个星（*），所以改变它的参数有两个（**）。 或者换个方法：头指针的类型是“指向结构节点的指针”。 为了改变这个指针，我们需要传递一个指向它的指针，它将是一个指向结构节点的指针的指针。
 
@@ -176,8 +179,7 @@ Push的第一个入参是一个指向链表头指针的指针，头指针被命�
     }
 
 内存布局：
-
-![](https://github.com/whillys/whillys.github.io/blob/master/img/Push.png)
+![](http://imglf4.nosdn.127.net/img/dUwzdFBUbDJxOXR6NUFUbTZDOUZyZ1c3Yi9NM2FKSGFXTDNSQTFJTWJnMHIxWU9LTVhwYTlnPT0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0&type=jpg)
 
 一些代码技巧
 下面总结一些链表代码的主要技术。 
@@ -223,7 +225,7 @@ Push的第一个入参是一个指向链表头指针的指针，头指针被命�
     
 调用ChangeCaller时的内存状态为：
 
-![](https://github.com/whillys/whillys.github.io/blob/master/img/ChangeCaller.png)
+![](http://imglf5.nosdn.127.net/img/dUwzdFBUbDJxOXR6NUFUbTZDOUZyb3pBWDRBMTRTRkl2RGhwaDAyaVRzeXd6ZUhFUXhZRnN3PT0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0&type=jpg)
 
 **3、 Build — At Head With Push()**
 
@@ -319,7 +321,7 @@ Push的第一个入参是一个指向链表头指针的指针，头指针被命�
 
 使用这种技巧的代码比较紧凑，但是理解起来要困难点，调用BuildWithLocalRef时的内存状态是这样子的：
 
-![](https://github.com/whillys/whillys.github.io/blob/master/img/localRef.png)
+![](http://imglf6.nosdn.127.net/img/dUwzdFBUbDJxOXR6NUFUbTZDOUZycmF5eHVLTzFZUlZwSDVIZkdTQlNEd3ZWTDdTTnNUZm9BPT0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0&type=jpg)
 
 临时虚设节点策略和本地引用指针策略不常用，但是它们是你深刻理解指针的好方法。
 
