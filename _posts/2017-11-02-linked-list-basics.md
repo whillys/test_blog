@@ -10,9 +10,9 @@ tags:                               #标签
     - 链表
 ---
 
-##链表
+## 链表
 
-###链表基础
+### 链表基础
 
 链表类型：节点和指针（Node and Pointer)
 节点是构成链表的基本元素，一个节点包含一个数据域和一个指针域，指针指向链表中下一个节点，定义节点类型如下：
@@ -121,6 +121,7 @@ BuildOneTwoThree()是一个很好的指针操作的例子，但它不是构建�
     }
     
 三步链接操作的内存状态如下：
+
 ![](https://github.com/whillys/whillys.github.io/blob/master/img/insert_node_with_3_step.png)
 
 **Push函数**
@@ -147,6 +148,7 @@ WrongPush企图使用三步操作来在链表头部插入新节点，第一步�
     }
 
 调用WrongPushTest时的内存布局为：
+
 ![](https://github.com/whillys/whillys.github.io/blob/master/img/wrongpush.png)
 
 我们需要Push()来改变一些调用者的内存--即head变量。 允许函数更改其调用者内存的传统方法是将指向调用者内存的指针传递给函数而不是内存中值副本。 所以在C中，要改变调用者的int，请传递一个int *。 要更改struct fraction，请传递strcut fraction *,要更改X，请传递一个X *。 所以在这种情况下，我们要更改的值是struct node *，所以我们传递一个struct node **。 两颗星（**）有点可怕，但是这只是一个直接的规则应用。 刚好我们要更改的值已经有一个星（*），所以改变它的参数有两个（**）。 或者换个方法：头指针的类型是“指向结构节点的指针”。 为了改变这个指针，我们需要传递一个指向它的指针，它将是一个指向结构节点的指针的指针。
@@ -174,6 +176,7 @@ Push的第一个入参是一个指向链表头指针的指针，头指针被命�
     }
 
 内存布局：
+
 ![](https://github.com/whillys/whillys.github.io/blob/master/img/Push.png)
 
 一些代码技巧
@@ -219,6 +222,7 @@ Push的第一个入参是一个指向链表头指针的指针，头指针被命�
     }
     
 调用ChangeCaller时的内存状态为：
+
 ![](https://github.com/whillys/whillys.github.io/blob/master/img/ChangeCaller.png)
 
 **3、 Build — At Head With Push()**
@@ -238,6 +242,7 @@ Push的第一个入参是一个指向链表头指针的指针，头指针被命�
 **4、 Build — With Tail Pointer**
 
 如果想要在链表尾端插入新节点，这通常需要通过维护一个尾指针（始终指向链表最后一个节点）来实现，将尾指针的.next由NULL改为新节点，下面的视图显示了在链表{1，2}尾端增加节点3的过程:
+
 ![](https://github.com/whillys/whillys.github.io/blob/master/img/addattail.png)
 
 这只是一般规则的特殊情况：要插入或删除列表中的一个节点，您需要一个指向该位置之前的节点的指针，因此您可以更改其.next域。 许多列表问题包括在插入或删除点之前将指针推向节点的子问题。 一个例外是如果节点是列表中的第一个,在这种情况下，头指针本身必须更改。 以下示例显示了代码可以处理单个头指针和所有内部情况...
@@ -312,6 +317,7 @@ Push的第一个入参是一个指向链表头指针的指针，头指针被命�
     }
 
 使用这种技巧的代码比较紧凑，但是理解起来要困难点，调用BuildWithLocalRef时的内存状态是这样子的：
+
 ![](https://github.com/whillys/whillys.github.io/blob/master/img/localRef.png)
 
 临时虚设节点策略和本地引用指针策略不常用，但是它们是你深刻理解指针的好方法。
