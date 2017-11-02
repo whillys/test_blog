@@ -243,7 +243,8 @@ Push的第一个入参是一个指向链表头指针的指针，头指针被命�
 
 如果想要在链表尾端插入新节点，这通常需要通过维护一个尾指针（始终指向链表最后一个节点）来实现，将尾指针的.next由NULL改为新节点，下面的视图显示了在链表{1，2}尾端增加节点3的过程:
 
-![](https://github.com/whillys/whillys.github.io/blob/master/img/addattail.png)
+
+![](http://imglf6.nosdn.127.net/img/dUwzdFBUbDJxOXZPUXRKdndWMmxSZ0UwTDJ6aXlvcG9ibTVVLy9jTjlFRFlYT1VmbEZtdXlBPT0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0&type=jpg)
 
 这只是一般规则的特殊情况：要插入或删除列表中的一个节点，您需要一个指向该位置之前的节点的指针，因此您可以更改其.next域。 许多列表问题包括在插入或删除点之前将指针推向节点的子问题。 一个例外是如果节点是列表中的第一个,在这种情况下，头指针本身必须更改。 以下示例显示了代码可以处理单个头指针和所有内部情况...
 
