@@ -125,7 +125,7 @@ BuildOneTwoThree()是一个很好的指针操作的例子，但它不是构建�
     
 三步链接操作的内存状态如下：
 
-![](http://imglf3.nosdn.127.net/img/dUwzdFBUbDJxOXR6NUFUbTZDOUZycDZaZHI1NlhiL0JvZklVdW1jUGhHQzhKK1pJd1RLUnd3PT0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0&type=jpg)
+![](https://imglf3.nosdn.127.net/img/dUwzdFBUbDJxOXR6NUFUbTZDOUZycDZaZHI1NlhiL0JvZklVdW1jUGhHQzhKK1pJd1RLUnd3PT0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0&type=jpg)
 
 **Push函数**
 
@@ -152,7 +152,7 @@ WrongPush企图使用三步操作来在链表头部插入新节点，第一步�
 
 调用WrongPushTest时的内存布局为：
 
-![](http://imglf4.nosdn.127.net/img/dUwzdFBUbDJxOXR6NUFUbTZDOUZydVVwbktISnY5QnZmNmlncDRhNnhJSEhFSTZyWS8ySFZnPT0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0&type=jpg)
+![](https://imglf4.nosdn.127.net/img/dUwzdFBUbDJxOXR6NUFUbTZDOUZydVVwbktISnY5QnZmNmlncDRhNnhJSEhFSTZyWS8ySFZnPT0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0&type=jpg)
 
 我们需要Push()来改变一些调用者的内存--即head变量。 允许函数更改其调用者内存的传统方法是将指向调用者内存的指针传递给函数而不是内存中值副本。 所以在C中，要改变调用者的int，请传递一个int *。 要更改struct fraction，请传递strcut fraction *,要更改X，请传递一个X *。 所以在这种情况下，我们要更改的值是struct node *，所以我们传递一个struct node **。 两颗星（**）有点可怕，但是这只是一个直接的规则应用。 刚好我们要更改的值已经有一个星（*），所以改变它的参数有两个（**）。 或者换个方法：头指针的类型是“指向结构节点的指针”。 为了改变这个指针，我们需要传递一个指向它的指针，它将是一个指向结构节点的指针的指针。
 
@@ -179,7 +179,7 @@ Push的第一个入参是一个指向链表头指针的指针，头指针被命�
     }
 
 内存布局：
-![](http://imglf4.nosdn.127.net/img/dUwzdFBUbDJxOXR6NUFUbTZDOUZyZ1c3Yi9NM2FKSGFXTDNSQTFJTWJnMHIxWU9LTVhwYTlnPT0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0&type=jpg)
+![](https://imglf4.nosdn.127.net/img/dUwzdFBUbDJxOXR6NUFUbTZDOUZyZ1c3Yi9NM2FKSGFXTDNSQTFJTWJnMHIxWU9LTVhwYTlnPT0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0&type=jpg)
 
 一些代码技巧
 下面总结一些链表代码的主要技术。 
@@ -225,7 +225,7 @@ Push的第一个入参是一个指向链表头指针的指针，头指针被命�
     
 调用ChangeCaller时的内存状态为：
 
-![](http://imglf5.nosdn.127.net/img/dUwzdFBUbDJxOXR6NUFUbTZDOUZyb3pBWDRBMTRTRkl2RGhwaDAyaVRzeXd6ZUhFUXhZRnN3PT0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0&type=jpg)
+![](https://imglf5.nosdn.127.net/img/dUwzdFBUbDJxOXR6NUFUbTZDOUZyb3pBWDRBMTRTRkl2RGhwaDAyaVRzeXd6ZUhFUXhZRnN3PT0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0&type=jpg)
 
 **3、 Build — At Head With Push()**
 
@@ -246,7 +246,7 @@ Push的第一个入参是一个指向链表头指针的指针，头指针被命�
 如果想要在链表尾端插入新节点，这通常需要通过维护一个尾指针（始终指向链表最后一个节点）来实现，将尾指针的.next由NULL改为新节点，下面的视图显示了在链表{1，2}尾端增加节点3的过程:
 
 
-![](http://imglf6.nosdn.127.net/img/dUwzdFBUbDJxOXZPUXRKdndWMmxSZ0UwTDJ6aXlvcG9ibTVVLy9jTjlFRFlYT1VmbEZtdXlBPT0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0&type=jpg)
+![](https://imglf6.nosdn.127.net/img/dUwzdFBUbDJxOXZPUXRKdndWMmxSZ0UwTDJ6aXlvcG9ibTVVLy9jTjlFRFlYT1VmbEZtdXlBPT0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0&type=jpg)
 
 这只是一般规则的特殊情况：要插入或删除列表中的一个节点，您需要一个指向该位置之前的节点的指针，因此您可以更改其.next域。 许多列表问题包括在插入或删除点之前将指针推向节点的子问题。 一个例外是如果节点是列表中的第一个,在这种情况下，头指针本身必须更改。 以下示例显示了代码可以处理单个头指针和所有内部情况...
 
@@ -321,7 +321,7 @@ Push的第一个入参是一个指向链表头指针的指针，头指针被命�
 
 使用这种技巧的代码比较紧凑，但是理解起来要困难点，调用BuildWithLocalRef时的内存状态是这样子的：
 
-![](http://imglf6.nosdn.127.net/img/dUwzdFBUbDJxOXR6NUFUbTZDOUZycmF5eHVLTzFZUlZwSDVIZkdTQlNEd3ZWTDdTTnNUZm9BPT0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0&type=jpg)
+![](https://imglf6.nosdn.127.net/img/dUwzdFBUbDJxOXR6NUFUbTZDOUZycmF5eHVLTzFZUlZwSDVIZkdTQlNEd3ZWTDdTTnNUZm9BPT0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0&type=jpg)
 
 临时虚设节点策略和本地引用指针策略不常用，但是它们是你深刻理解指针的好方法。
 
