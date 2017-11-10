@@ -38,7 +38,7 @@ GCC的各种版本如下：
 
 2001年，GCC的第三个版本发布。
 
-2005年，GCC的第五个版本发布，截至2012年7月，GCC的最新版本是4.7.4。
+2005年，GCC的第四个版本发布，截至2012年7月，GCC的最新版本是4.7.4。
 
 
 ### 1.2 GCC的安装
@@ -166,7 +166,7 @@ GCC编译c，c++程序到可执行程序经历了上图中所示的四个步骤�
 
     as hello.s -o hello.o
 
-4.链接：链接器将目标代码和其他的库代码链接生成可执行程序
+4、链接：链接器将目标代码和其他的库代码链接生成可执行程序
 
     ld hello.o ...libraries... -o hello
 
@@ -320,9 +320,9 @@ VPATH = src:../headers
 指定了两个目录，“src”,“../headers”，make会按照这个顺序进行搜索，目录由“冒号”分隔。（当前目录永远是最高优先搜索的地方）
 还可以通过make的关键字vpath（小写）来指定不同文件的不同搜索目录，它有三种使用方式：
 
-1、vpath pattern <irectories
+1、vpath pattern directories
  
-为符合模式<pattern>的文件指定搜索目录<directories>。 
+为符合模式<pattern>的文件指定搜索目录directories。 
 
 2、vpath pattern
 
