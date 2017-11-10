@@ -325,4 +325,595 @@ Push的第一个入参是一个指向链表头指针的指针，头指针被命�
 
 临时虚设节点策略和本地引用指针策略不常用，但是它们是你深刻理解指针的好方法。
 
-[参考文档](http://cslibrary.stanford.edu/103/LinkedListBasics.pdf)
+
+链表问题
+
+下面是按从易到难的顺序排列的18个链表问题。 前几个是相当的基本，最后几个难度有所提高的。 每个问题都从基本定义以及我们需要完成什么目标开始，许多问题还包括提示或视图。
+
+
+1. Count()
+
+定义一个Count()函数来统计链表中指定值出现的次数
+
+    int Count(struct node *head, int searchFor)
+    {
+    	int count = 0;
+    	struct node * current = head;
+    	while (current != NULL)
+    	{
+    		if (searchFor == current->data)
+    			++count;
+    		current = current->next;
+    	}
+    
+    	return count;
+    }
+    
+    void CountTest()
+    {
+    	struct node * head = BuildOneTwoThree();	//build{1,2，3}
+    	int count = Count(head,2);					//return 1 
+    }
+
+2. GetNth()
+
+定义一个函数GetNth()，该函数接收一个指向链表的指针和一个正整数，返回链表中以正整数作为索引的节点的data，第一个节点的索引为0，第二个节点的索引为1，以此类推，对于链表{42，13，666}，对于索引1，GetNth()返回13。
+
+    int GetNth(struct node *head,int idx)
+    {
+    	int len = Length(head);
+    	assert(idx >= 0 && idx < len);
+    
+    	struct node * current = head;
+    	int i = 0;
+    	while(current != NULL)
+    	{
+    		if (idx == i)
+    			return current->data;
+    		++i;
+    		current = current->next;
+    	}
+    
+    	//assert(0);		//也可以把断言放到这里来，如果程序运行了这一行代码，说明传入的idx不符合要求
+    }
+    
+    void GetNthTest()
+    {
+    	struct node *head = BuildOneTwoThree();	//build {1,2,3}
+    	int lastNode = GetNth(head,3);			//returns 3
+    }
+
+3. DeleteList()
+
+定义一个函数DeleteList()获取一个列表，取消分配给它的所有的内存并将其头指针设置为NULL（空列表）。
+
+    void DeleteList(struct node ** headRef)
+    {
+    	struct node * current = *headRef;
+    	struct node * tmp = NULL;
+    	while (current != NULL)
+    	{
+    		tmp = current->next;	//保存下一个节点
+    		free(current);			//删除当前节点
+    		current = tmp;			//更新到下一个节点
+    	}
+    
+    	*headRef = NULL;
+    }
+    
+    void DeleteListTest()
+    {
+    	struct node * head = BuildOneTwoThree(); //build {1,2,3}
+    	DeleteList(&head);
+    }
+
+因为DeleteList要改变传入的头指针，因此应该把指向头指针的指针作为参数传递给函数，删除列表后的内存视图应该如下图所示：
+
+4. Pop()
+
+定义一个Pop()函数其操作与Push()相反。 Pop接受一个非空列表，删除头节点，并返回头节点的数据。 如果你曾经使用Push()和Pop()，那么我们的链表就会看起来像一个堆栈。 但是，我们提供了更多的通用函数，比如GetNth（），它使我们的链表不仅仅是一个堆栈。 如果没有要弹出的节点，则Pop()应该assert()失败。 下面是一些调用Pop()的示例代码:
+
+    void PopTest()
+    {
+    	struct node * head = BuildOneTwoThree();	//build {1,2,3}
+    	int a = Pop(&head);		//delete "1" and return 1
+    	int b = Pop(&head);		//delete "2" and return 2
+    	int c = Pop(&head);		//delete "3" and return 3
+    	int len = Length(head);	//the list is now empty,so len = 0
+    }
+    
+    int Pop(struct node **headRef)
+    {
+    	int data;
+    	assert(*headRef ！= NULL);
+    
+    	struct node * current = *headRef;
+    	*headRef = current->next;
+    	data = current->data;
+    	free(current);
+    
+    	return data;
+    }
+
+5. InsertNth()
+
+定义一个函数InsertNth()在链表指定索引处插入节点，指定的索引取值范围应该为[0,length]，length为链表中节点的个数。
+
+    void InsertNthTest()
+    {
+    	struct node * head = NULL;
+    	InsertNth(&head,0,13);		//build {13}
+    	InsertNth(&head,1,42);		//build {13,42}
+    	InsertNth(&head,1,5);		//build {13,5,42}
+    }
+    
+    void InsertNth(struct node ** headRef,int idx,int data)
+    {
+    	int len = Length(*headRef);
+    	assert(len >= 0 && len <= len);
+    
+    	if (idx == 0)
+    	{
+    		Push(headRef,data);
+    	}
+    	else
+    	{
+    		int i=0;
+    		struct node *current = *headRef;
+    		while (i++ < idx - 1)		//注意这里减去了1，这样就不需要维护一个额外的指针指向插入位置前面一个节点
+    		{
+    			current = current->next;
+    		}
+    		Push(&(current->next),data);	
+    	}
+    }
+
+6. SortedInsert()
+7. 
+定义个一个函数SortedInsert()，该函数接受一个已经排好序的链表（升序排序）和一个指向单节点的指针，将这个单节点插入到链表的适当位置
+
+    void SortedInsert(struct node ** headRef,struct node * newNode)
+    {
+    	//头指针为空，或者在第一个节点之前插入的情况
+    	if (*headRef == NULL || (*headRef)->data >= newNode->data)
+    	{
+    		newNode->next = *headRef;
+    		*headRef = newNode;
+    	}
+    	else
+    	{
+    		struct node * current = *headRef;
+    		while (current->next != NULL && current->next->data < newNode->data)
+    		{
+    			current = current->next;
+    		}
+    		newNode->next = current->next;
+    		current->next = newNode;
+    	}
+    }
+
+虚设节点策略
+
+    void SortedInsertWithDummy(struct node ** headRef,struct node * newNode)
+    {
+    	//定义一个虚设节点
+    	struct node dummy;
+    	dummy.next = *headRef;
+    	struct node * current = &dummy;
+    
+    	while (current->next != NULL && current->next->data < newNode->data)
+    	{
+    		current = current->next;
+    	}
+    	newNode->next = current->next;
+    	current->next = newNode;
+    	*headRef = dummy.next;
+    }
+    
+
+引用指针策略
+
+    void SortedInsertWithLocRef(struct node ** headRef,struct node * newNode)
+    {
+    	struct node ** current = headRef;
+    
+    	while (*current != NULL && (*current)->data < newNode->data)
+    	{
+    		current = &((*current)->next);
+    	}
+    	newNode->next = *current;
+    	*current = newNode;
+    }
+
+7. InsertSort()
+定义一个函数InsertSort()，通过使用SortedInsert()将一个链表按升序排序，函数通过迭代源链表，将每个节点插入到另一个链表中，
+
+    void InsertSort(struct node **headRef)
+    {
+    	struct node * result = NULL;
+    	struct node * current = *head;
+    	struct node * next = NULL;
+    	
+    	while (current != NULL)
+    	{
+    		next = current->next;	//保存下一个节点
+    		SortedInsert(&result,current);
+    		current = current->next;
+    	}
+    
+    	*headRef = result;
+    }
+
+
+8.Append()
+
+定义一个函数Append()接收两个链表参数a,b，将链表b链在链表a最后一个节点后面，例如对于链表a={1,2},b={3,4}，两者链接后其内存状态应该为：
+
+    void Append(struct node **aRef,struct node **bRef)
+    {
+    	struct node * acurrent = *aRef;
+    	struct node * bcurrent = *bRef;
+    	if (acurrent == NULL)
+    	{
+    		*aRef = bcurrent;		
+    		*bRef = NULL;
+    	}
+    	else
+    	{
+    		while (acurrent->next != NULL)
+    		{
+    			acurrent = acurrent->next;
+    		}
+    		acurrent->next = bcurrent;
+    		*bRef = NULL;
+    	}
+    }
+
+9. FrontBackSplit()
+10. 
+定义一个函数FrontBackSplit()，将一个链表切分成两个子链表，链表前一半节点分到第一个链表，链表后一半节点分到另一个链表，如果链表节点个数为奇数，则多余的节点应该分到第一个子链表，例如对于链表{2，3，5，7，11}，被切分后，第一个子链表应该为{2，3，5}，第二个子链表尾{7，11}，下面用两种方法来实现FrontBackSplit()
+
+第一种方法：通过统计链表中元素个数来切分
+
+    void FrontBackSplit(struct node * source, struct node ** firstSub, struct node ** secondSub)
+    {
+    	struct node * current = source;
+    	int len = Length(current);
+    	
+    	if (len < 2)
+    	{
+    		*firstSub = source;
+    		*secondSub = NULL;
+    	}
+    	else
+    	{
+    		int pos = (len - 1) / 2;			//计算出切分点在哪个位置
+    		int i = 0;
+    		while (i++ < pos)
+    			current = current->next;
+    
+    		*firstSub = source;
+    		*secondSub = current->next;
+    		current->next = NULL:
+    	}	
+    }
+	
+第二种方法：通过设置两个指针，一个慢指针一次往前移动一个节点，一个快指针一次往前移动两个节点，当快指针为NULL时，慢指针所在的位置就是切分点
+
+    void FrontBackSplit(struct node * source, struct node ** firstSub, struct node ** secondSub)
+    {
+    	struct node * current = source;
+    
+    	if (current == NULL || current->next == NULL)		//节点个数少于2的情况
+    	{
+    		*firstSub = source;
+    		*secondSub = NULL;
+    	}
+    	else
+    	{
+    		struct node * slow = source;
+    		struct node * fast = source->next;
+    		while (fast != NULL)
+    		{
+    			fast = fast->next;	//快指针先移动一个节点位置
+    			if (fast != NULL)
+    			{
+    				slow = slow->next;	//慢指针移动一个位置
+    				fast = fast->next;	//快指针再次移动一个位置
+    			}
+    		}
+    
+    		*firstSub = source;
+    		*secondSub = slow->next;
+    		slow->next = NULL;
+    	}
+    }
+
+10. RemoveDuplicates()
+定义一个函数RemoveDuplicates()，删除排好序链表中重复的节点（升序排序），链表应该只迭代一次，因为链表是已经排好序的，所以只要把当前节点和下一个节点比较，如果相等，则删除下一个节点，否则把指针移动到下一个节点。
+
+    void RemoveDuplicates(struct node * head)
+    {
+    	struct node * current = head;
+    	struct node * next = NULL;
+    
+    	while (current != NULL && current->next != NULL)	//空表和只有一个节点的表不需要删除
+    	{
+    		if (current->data == current->next->data)	//当前节点和下一个节点相等，删除下一个节点
+    		{
+    			next = current->next;
+    			current->next = current->next->next;
+    			free(next);
+    		}
+    		else
+    		{
+    			current = current->next;
+    		}
+    	} 
+    }
+
+11. MoveNode()
+
+定义一个函数MoveNode()，它接收两个链表，将其第二个链表中第一个节点插入到第一个链表的头端，例如下面的测试程序，
+
+    void MoveNodeTest()
+    {
+    	struct node * a = BuildOneTwoThree();
+    	struct node * b = BuildOneTwoThree();
+    		
+    	MoveNode(&a,&b);		
+    	//result: a={1,1,2,3}, b={2,3}
+    }
+    
+    void MoveNode(struct node **destRef, struct node ** sourceRef)
+    {
+    	assert(*sourceRef);	//判断第二个链表是否为空
+    
+    	struct node * source = *sourceRef;
+    	
+    	*sourceRef = source->next;
+    	source->next = *destRef;
+    	*destRef = source;
+    }
+
+12. AlternatingSplit()
+
+定义一个函数AlternatingSplit()将一个链表切分到两个子表中，原表中偶数索引处的节点分到第一个子表中，奇数索引处的节点分到第二个子表中.
+
+方法一：使用前面定义的MoveNode来实现，使用这种方法切分的一个特别之处在于元素插入的顺跟它们在原表中的顺序相反
+
+    void AlternatingSplit(struct node * source, struct node ** aRef, struct node **bRef)
+    {
+    	struct node * current = source;
+    	
+    	while (current != NULL)
+    	{
+    		MoveNode(aRef,&current);
+    		if (current != NULL)
+    			MoveNode(bRef,&current);
+    	}
+    }
+
+方法二：利用一个虚设的节点来气氛链表，这样子表中节点的数据就不会是逆序的了
+
+    void AlternatingSplit(struct node * source, struct node ** aRef, struct node **bRef)
+    {
+    	struct node adummy;
+    	adummy.next = NULL;
+    	struct node ** atmpRef = &adummy.next;
+     
+    	struct node bdummy;
+    	dbummy.next = NULL;
+    	struct node **btmpRef = &bdummy.next;
+    
+    	struct node *current = source;
+    	while (current != NULL)
+    	{
+    		MoveNode(atmpRef,&current);
+    		atmpRef = &(*atmpref)->next;
+    		if (current != NULL)
+    		{
+    			MoveNode(btmpRef,&current);
+    			btmpRef = &((*btmpref)->next);
+    		}
+    	}
+    	
+    	*aRef = adummy.next;
+    	*bRef = bdummy.next;
+    }
+
+
+13. ShuffleMerge()
+
+定义一个函数ShuffleMerge()用于将连个链表合并到一个链表，在两个链表中交替的取节点，例如{1，2，3}和{7，13，1}ShuffleMerge()后形成的新链表为{1,7,2,13,3,1}，如果两个链表中任意一个中的节点先取完，另一个链表中剩下的节点都应该加到新链表中。
+
+方法一：使用虚设节点
+
+struct node * ShuffleMerge(struct node *a, struct node *b)
+{
+	struct node dummy;
+	struct node * tail = &dummy;
+	dummy.next = NULL;
+
+	while (1)
+	{
+		if (a == NULL)
+		{
+			tail->next = b;
+			break;
+		}
+
+		if (b == NULL)
+		{
+			tail->next = a;
+			break;
+		}
+
+		tail->next = a;
+		a = a->next;
+		tail = tail->next;
+		tail->next = b;
+		tail = b;
+		b = b->next;
+	}
+	
+	return dummy.next;
+}
+
+方法二：使用虚设节点和MoveNode()
+
+struct node * ShuffleMerge(struct node *a, struct node *b)
+{
+	struct node dummy;
+	struct node * tail = &dummy;
+	dummy.next = NULL;
+
+	while (1)
+	{
+		if (a == NULL)
+		{
+			tail->next = b;
+			break;
+		}
+
+		if (b == NULL)
+		{
+			tail->next = a;
+			break;
+		}
+
+		MoveNode(&tail,&a);
+		tail = tail->next;
+		MoveNode(&tail,&b);
+		tail = tail->next;
+	}
+	
+	return dummy.next;
+}
+
+
+
+14. SortedMerge()
+
+15. MergeSort()
+
+16. SortedIntersect()
+
+17. Reverse()
+
+定义一个函数Reverse()来翻转一个链表(原地翻转，不开辟新节点)，先看下面的测试程序，
+
+    void ReverseTest()
+    {
+    	struct node *head = BuildOneTwoThree();	//{1,2,3}
+    	Reverse(&head);	//head now points to {3,2,1}
+    	
+    	DeleteList(head);	
+    }
+
+方法一：
+
+    void Reverse(struct node ** headRef)
+    {
+    	struct node * result = NULL;
+    	struct node * current = *headRef;
+    	struct node * next = NULL;
+    
+    	while (current != NULL)
+    	{
+    		next = current->next;		//保存当前节点的下一个节点
+    		current->next = result;		//更新当前节点的指向
+    		result = current;			//保存当前节点
+    		current = next;				//更新当前节点
+    	}
+    
+    	*headRef = result;
+    }
+
+
+方法二：利用前面的MoveNode函数
+
+    void Reverse(struct node ** head)
+    {
+    	struct node * tmp = NULL;
+    
+    	while (*head != NULL)
+    		MoveNode(&tmp,head);
+    
+    	*head = tmp;
+    }
+
+调用Reverse()来翻转链表{1，2，3}的内存视图应该如下所示：
+
+18. RecursiveReverse()
+
+这个问题很难，只有在熟悉递归的情况下才有可能。这个问题有一个简短有效的递归解决方案。 和以前一样，链表只能迭代一次。 做多遍是比较容易，但速度很慢，所以我们坚持只迭代一次链表。解决这个问题需要真正理解指针代码和递归。
+
+    void RecursiveReverse(struct node **headRef)
+    {
+    	struct node * first = *headRef;
+    	struct node * rest = NULL;
+    
+    	if (first == NULL)
+    		return;	//空表
+    
+    	rest = first->next;
+    	if (rest == NULL)
+    		return; //链表中只有一个节点，不需要翻转
+    
+    	RecursiveReverse(&rest);		//RecursiveReverse(&rest)是一个关键的概念，表示翻转链表中剩余的节点
+    
+    	first->next->next = first;
+    	first->next = NULL;
+    	
+    	*headRef = rest;
+    }
+
+前面定义的函数中用到的基础函数Length(), Push(), BuildOneTwo()其实现代码如下：
+
+    //返回链表中节点的个数
+    int Length(struct node * head)
+    {
+    	int count = 0；
+    	struct node * current = head;
+    
+    	while (current != NULL)
+    	{
+    		count++;
+    		current = current->next;
+    	}
+    
+    	return count;
+    }
+
+    //在链表的头端插入一个新节点，该操作使用三步操作法
+    void Push(struct node ** headRef,int data)
+    {
+    	//1、allocate
+    	struct node * newNode = malloc(sizeof(strct node));
+    	newNode->data = data;
+    
+    	//2、link next
+    	newNode->next = *headRef;
+    
+    	//3、link head
+    	*headRef = newNode;
+    }
+
+    //创建链表{1，2，3}
+    struct node * BuildOneTwoThree()
+    {
+    	struct node * head = NULL;
+    	
+    	Push(&head,3);
+    	Push(&head,2);
+    	Push(&head,1);
+    
+    	return head;
+    }
+
+**> 参考文档**
+
+[LinkedListBasics](http://cslibrary.stanford.edu/103/LinkedListBasics.pdf)
+
+[LinkedListProblems](http://cslibrary.stanford.edu/105/LinkedListProblems.pdf)
