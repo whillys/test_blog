@@ -102,5 +102,8 @@ friends: [
     },{
         title: "programming notes",
         href: "http://www3.ntu.edu.sg/home/ehchua/programming/index.html"
+    },{
+        title: "man7.org",
+        href: "http://man7.org/index.html"
     }
 ]
