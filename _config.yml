@@ -105,5 +105,11 @@ friends: [
     },{
         title: "man7.org",
         href: "http://man7.org/index.html"
+    },{
+        title: "lifewire:Linux How-Tos",
+        href: "https://www.lifewire.com/learn-how-linux-4102755"
+    },{
+        title: "Julia Evans:An Useful Blog",
+        href: "https://jvns.ca/"
     }
 ]
