@@ -282,9 +282,56 @@ Makefile文件由各种规则组成，规则由三部分组成，其语法为：
 
 如果一个target不表示一个文件，那么这个target就是一个伪目标，例如，上面Makefile中的clean就是一个伪目标，伪目标总是被决议，即后面的指令总是会被执行。一些标准的伪目标有：all，clean，install。
 
+**回声**
+
+正常情况下，make会打印每一条命令，然后再执行，这叫做回声（echoing）,在命令的前面加上@可以关闭回声，由于在构建过程中需要知道当前正在执行那条命令，所以通常只在纯显示和注释的echo前面加上@。
+
+**通配符**
+
+make支持三个通配符： *，?，[]，这是和unixe的shell一样的，通配符代表了一系列的文件，例如，*.c表示所有后缀为c的文件，通配符可以用反斜杠(\)来转义，例如，\*表示*本身。
+
+**模式匹配**
+
+make允许对文件名，进行类似正则的匹配，主要用到的匹配符是%，例如，当前目录下有两个文件a.c和b.c两个源代码文件，需要将他们编译成对应的目标文件：
+
+%.o : %.c
+
+等同于
+
+a.o : a.c
+
+b.o : b.c
+
+使用匹配符%可以将大量同类型的文件只用一条规则就完成构建。
+
 **变量**
 
 Makefile中的变量相当于C语言中的宏，变量定义时，变量和变量内容通过=号连起来，例如，SOURCE = file1.c file2.c，变量的应用通过$(variable)的形式来引用。
+
+makefile提供了四个赋值运算符（=, :=, ?=, +=），他们的区别参考 [StackOverflow](https://stackoverflow.com/questions/448910/what-is-the-difference-between-the-gnu-makefile-variable-assignments-a)
+
+    VARIABLE = value
+    # 在执行时扩展，允许递归扩展。
+    
+    VARIABLE := value
+    # 在定义时扩展。
+    
+    VARIABLE ?= value
+    # 只有在该变量为空时才设置值。
+    
+    VARIABLE += value
+    # 将值追加到变量的尾端。
+
+**变量的高级用法**
+
+变量值的替换，我们可以替换变量中的共有部分，其格式是$(var:a=b)，把变量var中以a结尾的a替换成b，例如：
+
+foo = a.c b.c d.c
+
+bar = $(foo:c=o)
+
+$(bar)的值为a.o, b.o, d.o
+
 
 **自动变量**
 
