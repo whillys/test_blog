@@ -154,7 +154,7 @@ WrongPush企图使用三步操作来在链表头部插入新节点，第一步�
 
 ![](https://imglf4.nosdn.127.net/img/dUwzdFBUbDJxOXR6NUFUbTZDOUZydVVwbktISnY5QnZmNmlncDRhNnhJSEhFSTZyWS8ySFZnPT0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0&type=jpg)
 
-我们需要Push()来改变一些调用者的内存--即head变量。 允许函数更改其调用者内存的传统方法是将指向调用者内存的指针传递给函数而不是内存中值副本。 所以在C中，要改变调用者的int，请传递一个int *。 要更改struct fraction，请传递strcut fraction *,要更改X，请传递一个X *。 所以在这种情况下，我们要更改的值是struct node *，所以我们传递一个struct node **。 两颗星（**）有点可怕，但是这只是一个直接的规则应用。 刚好我们要更改的值已经有一个星（*），所以改变它的参数有两个（**）。 或者换个方法：头指针的类型是“指向结构节点的指针”。 为了改变这个指针，我们需要传递一个指向它的指针，它将是一个指向结构节点的指针的指针。
+我们需要Push()来改变一些调用者的内存--即head变量。 允许函数更改其调用者内存的传统方法是将指向调用者内存的指针传递给函数而不是内存中值副本。 所以在C中，要改变调用者的int，请传递一个`int *`。 要更改struct fraction，请传递`strcut fraction *`,要更改X，请传递一个`X *`。 所以在这种情况下，我们要更改的值是`struct node *`，所以我们传递一个`struct node **`。 两颗星`（**）`有点可怕，但是这只是一个直接的规则应用。 刚好我们要更改的值已经有一个星`（*）`，所以改变它的参数有两个`（**）`。 或者换个方法：头指针的类型是“指向结构节点的指针”。 为了改变这个指针，我们需要传递一个指向它的指针，它将是一个指向结构节点的指针的指针。
 
 正确的Push函数
 
