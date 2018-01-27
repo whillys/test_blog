@@ -112,4 +112,8 @@ friends: [
         title: "Julia Evans:An Useful Blog",
         href: "https://jvns.ca/"
     }
+    ,{
+        title: "The Linux Command Line",
+        href: "http://billie66.github.io/TLCL/book/"
+    }
 ]
