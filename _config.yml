@@ -116,4 +116,8 @@ friends: [
         title: "The Linux Command Line",
         href: "http://billie66.github.io/TLCL/book/"
     }
+    ,{
+        title: "tutorialspoint",
+        href: "https://www.tutorialspoint.com/index.htm"
+    }
 ]
